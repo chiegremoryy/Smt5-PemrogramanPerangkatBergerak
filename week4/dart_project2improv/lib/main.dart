@@ -40,9 +40,9 @@ b. Sabtu - Minggu: 08:00 - 23:00''';
             Row(
               children: [
                 btnContact(Icons.email, Colors.green[900],
-                    "mailto:${restoInfo['email']}"),
-                btnContact(
-                    Icons.map, Colors.blueAccent, "https://maps.google.com"),
+                    "mailto:${restoInfo['email']}?subject=Tanya%20Seputar%20Resto"),
+                btnContact(Icons.map, Colors.blueAccent,
+                    "https://maps.app.goo.gl/b9JQrLMDr1GHNuEW6"),
                 btnContact(Icons.phone, Colors.deepPurple,
                     "tel:${restoInfo['phone']}"),
               ],
