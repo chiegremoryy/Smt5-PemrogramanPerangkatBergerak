@@ -1,0 +1,1 @@
+ D:\\KULIAH\\SEMESTER\ 5\\PEMROGRAMAN\ PERANGKAT\ BERGERAK\\week6\\dart_project4\\.dart_tool\\flutter_build\\d52c9bd29ff5c5404afc6557e6f64942\\native_assets.yaml: 
