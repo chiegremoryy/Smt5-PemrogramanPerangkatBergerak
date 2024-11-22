@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const HomePage(), // Pastikan HomePage di sini
+      home: const HomePage(),
     );
   }
 }
