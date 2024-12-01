@@ -89,7 +89,6 @@ class _HomeScreenState extends State<HomeScreen> {
             color: Colors.black87,
           ),
         ),
-        const SizedBox(height: 8),
         RandomAyatWidget(),
       ],
     );
@@ -150,7 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
       indicatorColor: Color.fromARGB(255, 0, 124, 112),
       indicatorWeight: 3,
       labelStyle: GoogleFonts.poppins(
-        fontSize: 14,
+        fontSize: 16,
         fontWeight: FontWeight.w500,
       ),
       tabs: const [
