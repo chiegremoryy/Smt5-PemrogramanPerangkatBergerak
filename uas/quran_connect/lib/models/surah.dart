@@ -46,7 +46,7 @@ class Surah {
 
   static TempatTurun _getTempatTurun(String revelationType) {
     if (revelationType.toLowerCase() == "meccan") {
-      return TempatTurun.MEKAH;
+      return TempatTurun.MEKKAH;
     } else if (revelationType.toLowerCase() == "medinan") {
       return TempatTurun.MADINAH;
     } else {
@@ -55,10 +55,10 @@ class Surah {
   }
 }
 
-enum TempatTurun { MEKAH, MADINAH }
+enum TempatTurun { MEKKAH, MADINAH }
 
 final tempatTurunValues =
-    EnumValues({"Meccan": TempatTurun.MEKAH, "Medinan": TempatTurun.MADINAH});
+    EnumValues({"Meccan": TempatTurun.MEKKAH, "Medinan": TempatTurun.MADINAH});
 
 class EnumValues<T> {
   Map<String, T> map;
