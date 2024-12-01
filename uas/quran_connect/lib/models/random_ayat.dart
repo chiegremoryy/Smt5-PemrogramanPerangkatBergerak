@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:google_fonts/google_fonts.dart'; // Impor google_fonts
 
 class RandomAyatWidget extends StatefulWidget {
   @override
@@ -57,7 +58,8 @@ class _RandomAyatWidgetState extends State<RandomAyatWidget> {
               children: [
                 Text(
                   'Daily Motivation',
-                  style: TextStyle(
+                  style: GoogleFonts.poppins(
+                    // Gunakan font Poppins
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Color.fromARGB(255, 0, 124, 112),
@@ -66,15 +68,17 @@ class _RandomAyatWidgetState extends State<RandomAyatWidget> {
                 SizedBox(height: 8),
                 Text(
                   '"$ayatText"',
-                  style: TextStyle(
-                    fontSize: 12,
+                  style: GoogleFonts.poppins(
+                    // Gunakan font Poppins
+                    fontSize: 14,
                     fontStyle: FontStyle.italic,
                   ),
                 ),
                 SizedBox(height: 8),
                 Text(
                   'Surah: $surahName | Ayat: $ayatNumber',
-                  style: TextStyle(
+                  style: GoogleFonts.poppins(
+                    // Gunakan font Poppins
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: Colors.grey[700],
