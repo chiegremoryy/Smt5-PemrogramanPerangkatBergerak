@@ -9,6 +9,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  google_fonts: ^5.0.0
+  flutter_svg: ^2.0.0
+  dio: ^5.0.0
+  http: ^1.2.2
 
 dev_dependencies:
   flutter_test:
@@ -19,3 +23,6 @@ flutter:
   uses-material-design: true
   assets:
     - lib/assets/
+    - lib/assets/svgs/
+
+
