@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quran_connect/home_page.dart';
+import 'package:quran_connect/components/splash_screen.dart';
 
 void main() {
   runApp(const MainApp());
@@ -11,14 +11,13 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner:
-          false, // Menghilangkan label "debug" di sudut layar
+      debugShowCheckedModeBanner: false,
       title: 'Quran Connect',
       theme: ThemeData(
         primarySwatch: Colors.teal,
         scaffoldBackgroundColor: Colors.grey[100],
       ),
-      home: const HomePage(), // Mengatur HomePage sebagai halaman awal
+      home: const SplashScreen(),
     );
   }
 }
