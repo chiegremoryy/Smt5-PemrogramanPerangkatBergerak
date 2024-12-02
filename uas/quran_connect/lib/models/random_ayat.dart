@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:google_fonts/google_fonts.dart'; // Impor google_fonts
+import 'package:google_fonts/google_fonts.dart';
 
 class RandomAyatWidget extends StatefulWidget {
   @override
@@ -21,8 +21,7 @@ class _RandomAyatWidgetState extends State<RandomAyatWidget> {
   }
 
   Future<void> fetchRandomAyat() async {
-    int randomAyatNumber = (Random().nextInt(6236)) +
-        1; // Mendapatkan angka acak antara 1 dan 6236
+    int randomAyatNumber = (Random().nextInt(6236)) + 1;
     final response = await http.get(
       Uri.parse(
           'https://api.alquran.cloud/v1/ayah/$randomAyatNumber/id.indonesian'),
@@ -59,7 +58,6 @@ class _RandomAyatWidgetState extends State<RandomAyatWidget> {
                 Text(
                   'Daily Motivation',
                   style: GoogleFonts.poppins(
-                    // Gunakan font Poppins
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Color.fromARGB(255, 0, 124, 112),
@@ -69,7 +67,6 @@ class _RandomAyatWidgetState extends State<RandomAyatWidget> {
                 Text(
                   '"$ayatText"',
                   style: GoogleFonts.poppins(
-                    // Gunakan font Poppins
                     fontSize: 14,
                     fontStyle: FontStyle.italic,
                   ),
@@ -78,7 +75,6 @@ class _RandomAyatWidgetState extends State<RandomAyatWidget> {
                 Text(
                   'Surah: $surahName | Ayat: $ayatNumber',
                   style: GoogleFonts.poppins(
-                    // Gunakan font Poppins
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: Colors.grey[700],
