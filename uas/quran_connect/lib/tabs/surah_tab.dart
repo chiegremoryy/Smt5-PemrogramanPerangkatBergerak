@@ -73,24 +73,31 @@ class SurahTab extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
           child: Row(
             children: [
-              // Nomor Surah dengan dekorasi
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  SvgPicture.asset(
-                    'assets/svgs/nomor-surah.svg', // Ikon bunga seperti di gambar
-                    width: 40,
-                    height: 40,
-                  ),
-                  Text(
-                    "${surah.nomor}",
-                    style: GoogleFonts.poppins(
-                      color: const Color(0xFF007C70),
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14,
+              // Nomor Surah dengan border
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: const Color(0xFF007C70), width: 3),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                padding: const EdgeInsets.all(8),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      'assets/svgs/nomor-surah.svg',
+                      width: 25,
+                      height: 35,
                     ),
-                  ),
-                ],
+                    Text(
+                      "${surah.nomor}",
+                      style: GoogleFonts.poppins(
+                        color: const Color(0xFF007C70),
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(width: 16),
               Expanded(
