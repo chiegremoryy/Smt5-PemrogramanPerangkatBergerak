@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'auth_screen.dart';
 
 class LandingPage extends StatelessWidget {
@@ -45,18 +46,20 @@ class LandingPage extends StatelessWidget {
                       horizontal: 40,
                       vertical: 15,
                     ),
-                    minimumSize: Size(double.infinity, 50),
+                    minimumSize: const Size(double.infinity, 50),
                   ),
-                  child: const Text(
+                  child: Text(
                     'Read Only',
-                    style: TextStyle(
-                        fontSize: 16, color: Color.fromARGB(255, 0, 124, 112)),
+                    style: GoogleFonts.poppins(
+                      fontSize: 16,
+                      color: const Color.fromARGB(255, 0, 124, 112),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 15),
-                const Text(
+                Text(
                   'More Feature?',
-                  style: TextStyle(
+                  style: GoogleFonts.poppins(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                     color: Colors.black54,
@@ -81,11 +84,14 @@ class LandingPage extends StatelessWidget {
                       horizontal: 40,
                       vertical: 15,
                     ),
-                    minimumSize: Size(double.infinity, 50),
+                    minimumSize: const Size(double.infinity, 50),
                   ),
-                  child: const Text(
+                  child: Text(
                     'Sign Up',
-                    style: TextStyle(fontSize: 16, color: Colors.white),
+                    style: GoogleFonts.poppins(
+                      fontSize: 16,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 20),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:quran_connect/components/landing_page.dart';
 
 void main() {
@@ -43,19 +44,19 @@ class SplashScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text(
+                Text(
                   'Quran Connect',
-                  style: TextStyle(
+                  style: GoogleFonts.poppins(
                     fontSize: 22,
                     fontWeight: FontWeight.w600,
                     color: Colors.black87,
                   ),
                 ),
                 const SizedBox(height: 8),
-                const Text(
+                Text(
                   'Learn Quran and\nRecite once everyday',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: GoogleFonts.poppins(
                     fontSize: 16,
                     color: Colors.black54,
                     height: 1.5,
@@ -103,9 +104,10 @@ class SplashScreen extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 40, vertical: 15),
                           ),
-                          child: const Text(
+                          child: Text(
                             'Get Started',
-                            style: TextStyle(fontSize: 16, color: Colors.white),
+                            style: GoogleFonts.poppins(
+                                fontSize: 16, color: Colors.white),
                           ),
                         ),
                       ),
