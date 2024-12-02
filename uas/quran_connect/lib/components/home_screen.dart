@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 import 'package:quran_connect/tabs/surah_tab.dart';
 import 'package:quran_connect/models/random_ayat.dart';
 
@@ -15,6 +17,47 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isSearchVisible = false;
   String userName = "Chie Gremoryyy";
   TextEditingController searchController = TextEditingController();
+  List<dynamic> searchResults = [];
+  bool isLoading = false;
+
+  // Fungsi untuk melakukan pencarian
+  Future<void> searchSurah(String query) async {
+    if (query.isEmpty) {
+      setState(() {
+        searchResults = [];
+      });
+      return;
+    }
+
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      final response = await http.get(Uri.parse(
+          'https://api.alquran.cloud/v1/search/$query/all/id.indonesian'));
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        setState(() {
+          searchResults = data['data']['matches'] ?? [];
+        });
+      } else {
+        setState(() {
+          searchResults = [];
+        });
+      }
+    } catch (e) {
+      print("Error fetching search results: $e");
+      setState(() {
+        searchResults = [];
+      });
+    }
+
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,27 +66,29 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: _buildAppBar(),
       bottomNavigationBar: _buildBottomNav(),
       body: DefaultTabController(
-        length: 4,
+        length: 3,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 20),
-              if (!isSearchVisible) _buildHeader(),
-              const SizedBox(height: 24),
-              _buildLastRead(),
-              const SizedBox(height: 24),
-              _buildTabBar(),
               const SizedBox(height: 16),
-              const Expanded(
-                child: TabBarView(
-                  children: [
-                    SurahTab(),
-                    Placeholder(),
-                    Placeholder(),
-                  ],
-                ),
+              isSearchVisible ? _buildSearchBar() : _buildHeader(),
+              const SizedBox(height: 16),
+              if (!isSearchVisible) _buildLastRead(),
+              const SizedBox(height: 16),
+              if (!isSearchVisible) _buildTabBar(),
+              const SizedBox(height: 16),
+              Expanded(
+                child: isSearchVisible
+                    ? _buildSearchResults()
+                    : const TabBarView(
+                        children: [
+                          SurahTab(),
+                          Placeholder(),
+                          Placeholder(),
+                        ],
+                      ),
               ),
             ],
           ),
@@ -63,18 +108,134 @@ class _HomeScreenState extends State<HomeScreen> {
                 setState(() {
                   isSearchVisible = false;
                   searchController.clear();
+                  searchResults = [];
                 });
               },
             )
           : null,
-      title: Text(
-        'QuranConnect',
-        style: GoogleFonts.poppins(
-          fontSize: 18,
-          fontWeight: FontWeight.w600,
-          color: Colors.black87,
+      title: isSearchVisible
+          ? null
+          : Text(
+              'QuranConnect',
+              style: GoogleFonts.poppins(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: Colors.black87,
+              ),
+            ),
+      actions: [
+        if (!isSearchVisible)
+          IconButton(
+            icon: const Icon(Icons.search, color: Colors.black87),
+            onPressed: () {
+              setState(() {
+                isSearchVisible = true;
+              });
+            },
+          ),
+      ],
+    );
+  }
+
+  Widget _buildSearchBar() {
+    return Row(
+      children: [
+        Expanded(
+          child: TextField(
+            controller: searchController,
+            style: GoogleFonts.poppins(),
+            decoration: InputDecoration(
+              hintText: 'Masukkan kata kunci. . .',
+              hintStyle: GoogleFonts.poppins(),
+              prefixIcon: const Icon(Icons.search, color: Colors.grey),
+              filled: true,
+              fillColor: Colors.grey[200],
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(14),
+                borderSide: BorderSide.none,
+              ),
+            ),
+          ),
         ),
-      ),
+        const SizedBox(width: 8),
+        IconButton(
+          icon: const Icon(Icons.search, color: Colors.black87),
+          onPressed: () {
+            // Trigger search when the user clicks the search icon
+            searchSurah(searchController.text);
+          },
+        ),
+        IconButton(
+          icon: const Icon(Icons.close, color: Colors.black87),
+          onPressed: () {
+            setState(() {
+              isSearchVisible = false;
+              searchController.clear();
+              searchResults = [];
+            });
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSearchResults() {
+    if (isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (searchResults.isEmpty) {
+      return Center(
+        child: Text(
+          'Pencarian tidak ditemukan!',
+          style: GoogleFonts.poppins(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            color: Colors.grey.shade600, // Ubah warna sesuai kebutuhan
+          ),
+        ),
+      );
+    }
+
+    return ListView.builder(
+      itemCount: searchResults.length,
+      itemBuilder: (context, index) {
+        final result = searchResults[index];
+        return ListTile(
+          title: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  result['text'] ?? 'Unknown',
+                  style: GoogleFonts.poppins(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400, // Sesuaikan gaya
+                    color: Colors.black87, // Sesuaikan warna teks
+                  ),
+                ),
+              ),
+              Text(
+                result['surah']['name'] ?? '',
+                style: GoogleFonts.poppins(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: const Color.fromARGB(255, 0, 124, 112),
+                ),
+              ),
+            ],
+          ),
+          subtitle: Text(
+            'Surah: ${result['surah']['englishName']} | Ayat: ${result['numberInSurah']}',
+            style: GoogleFonts.poppins(
+              fontSize: 12,
+              fontWeight: FontWeight.w400,
+              color: Colors.grey.shade600,
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -145,9 +306,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildTabBar() {
     return TabBar(
-      labelColor: Color.fromARGB(255, 0, 124, 112),
+      labelColor: const Color.fromARGB(255, 0, 124, 112),
       unselectedLabelColor: Colors.grey[400],
-      indicatorColor: Color.fromARGB(255, 0, 124, 112),
+      indicatorColor: const Color.fromARGB(255, 0, 124, 112),
       indicatorWeight: 3,
       labelStyle: GoogleFonts.poppins(
         fontSize: 16,
@@ -165,8 +326,10 @@ class _HomeScreenState extends State<HomeScreen> {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       backgroundColor: Colors.white,
-      selectedItemColor: Color.fromARGB(255, 0, 124, 112),
+      selectedItemColor: const Color.fromARGB(255, 0, 124, 112),
       unselectedItemColor: Colors.grey[400],
+      selectedLabelStyle: GoogleFonts.poppins(fontSize: 12),
+      unselectedLabelStyle: GoogleFonts.poppins(fontSize: 12),
       items: const [
         BottomNavigationBarItem(
           icon: Icon(Icons.menu_book),
