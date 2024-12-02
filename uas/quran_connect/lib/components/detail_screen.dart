@@ -20,7 +20,6 @@ class DetailScreen extends StatelessWidget {
 
           // Jika bukan Surah Al-Fatihah dan ini ayat pertama
           if (noSurat != 1 && i == 0) {
-            // Hapus lafadz بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
             final bismillahPattern =
                 RegExp(r'^بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ');
             arabicText = arabicText.replaceFirst(bismillahPattern, '').trim();
@@ -78,7 +77,6 @@ class DetailScreen extends StatelessWidget {
             body: SingleChildScrollView(
               child: Column(
                 children: [
-                  // Header
                   Padding(
                     padding:
                         const EdgeInsets.only(left: 16.0, right: 16.0, top: 40),
@@ -122,14 +120,11 @@ class DetailScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  // Ayat List
                   ListView.builder(
                     padding: EdgeInsets.zero,
                     itemCount: ayatList.length,
-                    shrinkWrap:
-                        true, // Allow ListView to take the space it needs
-                    physics:
-                        NeverScrollableScrollPhysics(), // Disable inner scrolling
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       final ayat = ayatList[index];
                       return Container(
