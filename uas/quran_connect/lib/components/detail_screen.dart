@@ -18,7 +18,6 @@ class DetailScreen extends StatelessWidget {
         for (int i = 0; i < data[0]['ayahs'].length; i++) {
           String arabicText = data[0]['ayahs'][i]['text'];
 
-          // Jika bukan Surah Al-Fatihah dan ini ayat pertama
           if (noSurat != 1 && i == 0) {
             final bismillahPattern =
                 RegExp(r'^بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ');
