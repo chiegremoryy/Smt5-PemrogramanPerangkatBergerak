@@ -14,13 +14,25 @@ class DetailScreen extends StatelessWidget {
       if (response.statusCode == 200) {
         var data = response.data['data'];
         List<Map<String, dynamic>> combinedData = [];
+
         for (int i = 0; i < data[0]['ayahs'].length; i++) {
+          String arabicText = data[0]['ayahs'][i]['text'];
+
+          // Jika bukan Surah Al-Fatihah dan ini ayat pertama
+          if (noSurat != 1 && i == 0) {
+            // Hapus lafadz بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
+            final bismillahPattern =
+                RegExp(r'^بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ');
+            arabicText = arabicText.replaceFirst(bismillahPattern, '').trim();
+          }
+
           combinedData.add({
-            "arabic": data[0]['ayahs'][i]['text'],
+            "arabic": arabicText,
             "translation": data[1]['ayahs'][i]['text'],
             "number": data[0]['ayahs'][i]['numberInSurah'],
           });
         }
+
         return {
           "name": data[0]['englishName'],
           "translation": data[1]['englishNameTranslation'],
