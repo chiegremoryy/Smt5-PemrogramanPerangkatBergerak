@@ -20,7 +20,6 @@ class _HomeScreenState extends State<HomeScreen> {
   List<dynamic> searchResults = [];
   bool isLoading = false;
 
-  // Fungsi untuk melakukan pencarian
   Future<void> searchSurah(String query) async {
     if (query.isEmpty) {
       setState(() {
@@ -85,7 +84,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     : const TabBarView(
                         children: [
                           SurahTab(),
-                          Placeholder(),
                           Placeholder(),
                         ],
                       ),
@@ -159,16 +157,17 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ),
-        const SizedBox(width: 8),
+        const SizedBox(width: 5),
         IconButton(
-          icon: const Icon(Icons.search, color: Colors.black87),
+          icon:
+              const Icon(Icons.search, color: Color.fromARGB(255, 0, 124, 112)),
           onPressed: () {
-            // Trigger search when the user clicks the search icon
             searchSurah(searchController.text);
           },
         ),
         IconButton(
-          icon: const Icon(Icons.close, color: Colors.black87),
+          icon:
+              const Icon(Icons.close, color: Color.fromARGB(255, 0, 124, 112)),
           onPressed: () {
             setState(() {
               isSearchVisible = false;
@@ -193,7 +192,7 @@ class _HomeScreenState extends State<HomeScreen> {
           style: GoogleFonts.poppins(
             fontSize: 16,
             fontWeight: FontWeight.w500,
-            color: Colors.grey.shade600, // Ubah warna sesuai kebutuhan
+            color: Colors.grey.shade600,
           ),
         ),
       );
@@ -211,8 +210,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   result['text'] ?? 'Unknown',
                   style: GoogleFonts.poppins(
                     fontSize: 14,
-                    fontWeight: FontWeight.w400, // Sesuaikan gaya
-                    color: Colors.black87, // Sesuaikan warna teks
+                    fontWeight: FontWeight.w400,
+                    color: Colors.black87,
                   ),
                 ),
               ),
@@ -241,8 +240,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildHeader() {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        const SizedBox(height: 16),
         Text(
           "Assalamualaikum, $userName!",
           style: GoogleFonts.poppins(
@@ -250,7 +250,9 @@ class _HomeScreenState extends State<HomeScreen> {
             fontWeight: FontWeight.w600,
             color: Colors.black87,
           ),
+          textAlign: TextAlign.center,
         ),
+        const SizedBox(height: 16),
         RandomAyatWidget(),
       ],
     );
@@ -317,7 +319,6 @@ class _HomeScreenState extends State<HomeScreen> {
       tabs: const [
         Tab(text: 'Surah'),
         Tab(text: 'Juz'),
-        Tab(text: 'Page'),
       ],
     );
   }
@@ -332,11 +333,11 @@ class _HomeScreenState extends State<HomeScreen> {
       unselectedLabelStyle: GoogleFonts.poppins(fontSize: 12),
       items: const [
         BottomNavigationBarItem(
-          icon: Icon(Icons.menu_book),
+          icon: Icon(Icons.book_rounded),
           label: 'Al-Quran',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.favorite_border),
+          icon: Icon(Icons.favorite),
           label: 'Favorites',
         ),
         BottomNavigationBarItem(
