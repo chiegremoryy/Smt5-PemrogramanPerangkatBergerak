@@ -20,6 +20,21 @@ class _HomeScreenState extends State<HomeScreen> {
   List<dynamic> searchResults = [];
   bool isLoading = false;
 
+  Future<Map<String, dynamic>> fetchAyahArabicText(
+      int surahNumber, int ayahNumber) async {
+    final response = await http.get(Uri.parse(
+        'https://api.alquran.cloud/v1/ayah/$surahNumber:$ayahNumber/editions/id.arab'));
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      return {
+        'text': data['data'][0]['text'],
+      };
+    } else {
+      throw Exception('Failed to load Arabic text');
+    }
+  }
+
   Future<void> searchSurah(String query) async {
     if (query.isEmpty) {
       setState(() {
@@ -202,37 +217,56 @@ class _HomeScreenState extends State<HomeScreen> {
       itemCount: searchResults.length,
       itemBuilder: (context, index) {
         final result = searchResults[index];
-        return ListTile(
-          title: Row(
-            children: [
-              Expanded(
-                child: Text(
-                  result['text'] ?? 'Unknown',
-                  style: GoogleFonts.poppins(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.black87,
+
+        return FutureBuilder<Map<String, dynamic>>(
+          future: fetchAyahArabicText(
+              result['surah']['number'], result['numberInSurah']),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            if (snapshot.hasError || !snapshot.hasData) {
+              return const SizedBox.shrink();
+            }
+
+            final ayahData = snapshot.data!;
+            final arabicText = ayahData['text'] ?? 'Text not available';
+
+            return ListTile(
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    arabicText,
+                    style: GoogleFonts.amiri(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: const Color.fromARGB(255, 0, 124, 112),
+                    ),
+                    textDirection: TextDirection.rtl,
                   ),
-                ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Terjemahan: ${result['text']}',
+                    style: GoogleFonts.poppins(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black87,
+                    ),
+                  ),
+                ],
               ),
-              Text(
-                result['surah']['name'] ?? '',
+              subtitle: Text(
+                'Surah: ${result['surah']['englishName']} | Ayat: ${result['numberInSurah']}',
                 style: GoogleFonts.poppins(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: const Color.fromARGB(255, 0, 124, 112),
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.grey.shade600,
                 ),
               ),
-            ],
-          ),
-          subtitle: Text(
-            'Surah: ${result['surah']['englishName']} | Ayat: ${result['numberInSurah']}',
-            style: GoogleFonts.poppins(
-              fontSize: 12,
-              fontWeight: FontWeight.w400,
-              color: Colors.grey.shade600,
-            ),
-          ),
+            );
+          },
         );
       },
     );
