@@ -162,8 +162,8 @@
 //     );
 //   }
 // }
-
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:quran_connect/components/home_screen.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -182,7 +182,10 @@ class _AuthScreenState extends State<AuthScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_isSignup ? 'Quran-Connect' : 'Quran-Connect'),
+        title: Text(
+          _isSignup ? 'Quran-Connect' : 'Quran-Connect',
+          style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w600),
+        ),
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -208,7 +211,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 SizedBox(height: 30),
                 Text(
                   _isSignup ? 'Sign Up' : 'Sign In',
-                  style: TextStyle(
+                  style: GoogleFonts.poppins(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
                   ),
@@ -233,7 +236,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     controller: _emailController,
                     decoration: InputDecoration(
                       hintText: 'Email',
-                      hintStyle: TextStyle(color: Colors.black54),
+                      hintStyle: GoogleFonts.poppins(color: Colors.black54),
                       contentPadding:
                           EdgeInsets.symmetric(horizontal: 20, vertical: 14),
                       border: InputBorder.none,
@@ -266,7 +269,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     obscureText: true,
                     decoration: InputDecoration(
                       hintText: 'Password',
-                      hintStyle: TextStyle(color: Colors.black54),
+                      hintStyle: GoogleFonts.poppins(color: Colors.black54),
                       contentPadding:
                           EdgeInsets.symmetric(horizontal: 20, vertical: 14),
                       border: InputBorder.none,
@@ -301,7 +304,10 @@ class _AuthScreenState extends State<AuthScreen> {
                   ),
                   child: Text(
                     _isSignup ? 'Register' : 'Login',
-                    style: TextStyle(fontSize: 16, color: Colors.white),
+                    style: GoogleFonts.poppins(
+                        fontSize: 16,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
                 SizedBox(height: 15),
@@ -316,7 +322,8 @@ class _AuthScreenState extends State<AuthScreen> {
                     _isSignup
                         ? 'Already have an account? Sign In'
                         : 'Don’t have an account? Sign Up',
-                    style: TextStyle(color: Colors.black87, fontSize: 14),
+                    style: GoogleFonts.poppins(
+                        color: Colors.black87, fontSize: 14),
                   ),
                 ),
               ],
