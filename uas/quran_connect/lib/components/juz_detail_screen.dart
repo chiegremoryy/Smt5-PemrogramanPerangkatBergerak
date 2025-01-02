@@ -61,7 +61,7 @@ class _JuzDetailScreenState extends State<JuzDetailScreen> {
                   color: Colors.white,
                 ),
               ),
-              centerTitle: true, // Menyebabkan teks di header berada di tengah
+              centerTitle: true,
               backgroundColor: const Color.fromARGB(255, 0, 124, 112),
             ),
             body: ListView.builder(
