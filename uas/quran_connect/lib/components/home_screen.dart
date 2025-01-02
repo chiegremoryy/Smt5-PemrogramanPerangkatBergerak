@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:quran_connect/tabs/surah_tab.dart';
+import 'package:quran_connect/tabs/juz_tab.dart';
 import 'package:quran_connect/models/random_ayat.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -99,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     : const TabBarView(
                         children: [
                           SurahTab(),
-                          Placeholder(),
+                          JuzTab(),
                         ],
                       ),
               ),
@@ -276,7 +277,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const SizedBox(height: 16),
+        //const SizedBox(height: 16),
         Text(
           "Assalamualaikum, $userName!",
           style: GoogleFonts.poppins(
@@ -286,7 +287,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 16),
+        //const SizedBox(height: 16),
         RandomAyatWidget(),
       ],
     );
