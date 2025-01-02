@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quran_connect/components/home_screen.dart';
+import 'package:quran_connect/components/user_dao.dart';
+import 'package:quran_connect/models/user.dart';
 
 class AuthScreen extends StatefulWidget {
   @override
@@ -13,6 +15,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final UserDao _userDao = UserDao();
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +57,6 @@ class _AuthScreenState extends State<AuthScreen> {
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 30),
-                // Email field container
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -86,7 +88,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   ),
                 ),
                 SizedBox(height: 20),
-                // Password field container
+
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -121,13 +123,38 @@ class _AuthScreenState extends State<AuthScreen> {
                 SizedBox(height: 30),
                 // Elevated Button
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      // Skip user validation and navigate to HomeScreen directly
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()),
-                      );
+                      if (_isSignup) {
+                        User newUser = User(
+                          email: _emailController.text,
+                          password: _passwordController.text,
+                        );
+                        await _userDao.insertUser(newUser);
+
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomeScreen()),
+                        );
+                      } else {
+                        // Login user
+                        User? user = await _userDao.getUser(
+                          _emailController.text,
+                          _passwordController.text,
+                        );
+                        if (user != null) {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HomeScreen()),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                                content: Text('Invalid email or password')),
+                          );
+                        }
+                      }
                     }
                   },
                   style: ElevatedButton.styleFrom(
@@ -147,7 +174,6 @@ class _AuthScreenState extends State<AuthScreen> {
                   ),
                 ),
                 SizedBox(height: 15),
-                // Toggle between sign-up and sign-in
                 TextButton(
                   onPressed: () {
                     setState(() {
