@@ -2,15 +2,23 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class DetailScreen extends StatelessWidget {
+class DetailScreen extends StatefulWidget {
   final int noSurat;
 
   const DetailScreen({super.key, required this.noSurat});
 
+  @override
+  State<DetailScreen> createState() => _DetailScreenState();
+}
+
+class _DetailScreenState extends State<DetailScreen> {
+  Set<int> favoriteAyahs = {};
+  Set<int> bookmarkedAyahs = {};
+
   Future<Map<String, dynamic>> _getDetailSurah() async {
     try {
       var response = await Dio().get(
-          "https://api.alquran.cloud/v1/surah/$noSurat/editions/quran-uthmani,id.indonesian");
+          "https://api.alquran.cloud/v1/surah/${widget.noSurat}/editions/quran-uthmani,id.indonesian");
       if (response.statusCode == 200) {
         var data = response.data['data'];
         List<Map<String, dynamic>> combinedData = [];
@@ -18,7 +26,7 @@ class DetailScreen extends StatelessWidget {
         for (int i = 0; i < data[0]['ayahs'].length; i++) {
           String arabicText = data[0]['ayahs'][i]['text'];
 
-          if (noSurat != 1 && i == 0) {
+          if (widget.noSurat != 1 && i == 0) {
             final bismillahPattern =
                 RegExp(r'^بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ');
             arabicText = arabicText.replaceFirst(bismillahPattern, '').trim();
@@ -44,6 +52,22 @@ class DetailScreen extends StatelessWidget {
     } catch (e) {
       throw Exception("Failed to load Surah: $e");
     }
+  }
+
+  void _toggleFavorite(int ayahNumber) {
+    setState(() {
+      favoriteAyahs.contains(ayahNumber)
+          ? favoriteAyahs.remove(ayahNumber)
+          : favoriteAyahs.add(ayahNumber);
+    });
+  }
+
+  void _toggleBookmark(int ayahNumber) {
+    setState(() {
+      bookmarkedAyahs.contains(ayahNumber)
+          ? bookmarkedAyahs.remove(ayahNumber)
+          : bookmarkedAyahs.add(ayahNumber);
+    });
   }
 
   @override
@@ -157,8 +181,37 @@ class DetailScreen extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  // Icon(Icons.favorite_border),
-                                  Icon(Icons.bookmark_border),
+                                  Row(
+                                    children: [
+                                      IconButton(
+                                        icon: Icon(
+                                          favoriteAyahs.contains(ayat['number'])
+                                              ? Icons.favorite
+                                              : Icons.favorite_border,
+                                          color: favoriteAyahs
+                                                  .contains(ayat['number'])
+                                              ? Colors.red
+                                              : Colors.grey,
+                                        ),
+                                        onPressed: () =>
+                                            _toggleFavorite(ayat['number']),
+                                      ),
+                                      IconButton(
+                                        icon: Icon(
+                                          bookmarkedAyahs
+                                                  .contains(ayat['number'])
+                                              ? Icons.bookmark
+                                              : Icons.bookmark_border,
+                                          color: bookmarkedAyahs
+                                                  .contains(ayat['number'])
+                                              ? Colors.blue
+                                              : Colors.grey,
+                                        ),
+                                        onPressed: () =>
+                                            _toggleBookmark(ayat['number']),
+                                      ),
+                                    ],
+                                  ),
                                 ],
                               ),
                               const SizedBox(height: 8),
