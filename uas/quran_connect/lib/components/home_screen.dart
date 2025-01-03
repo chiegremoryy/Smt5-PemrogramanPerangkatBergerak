@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:quran_connect/tabs/surah_tab.dart';
 import 'package:quran_connect/tabs/juz_tab.dart';
 import 'package:quran_connect/models/random_ayat.dart';
+import 'package:quran_connect/components/favorites_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -375,11 +376,15 @@ class _HomeScreenState extends State<HomeScreen> {
           icon: Icon(Icons.favorite),
           label: 'Favorites',
         ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.bookmark),
-          label: 'Bookmarks',
-        ),
       ],
+      onTap: (index) {
+        if (index == 1) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => FavoritesScreen()),
+          );
+        }
+      },
     );
   }
 }

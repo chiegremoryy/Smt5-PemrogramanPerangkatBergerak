@@ -196,20 +196,6 @@ class _DetailScreenState extends State<DetailScreen> {
                                         onPressed: () =>
                                             _toggleFavorite(ayat['number']),
                                       ),
-                                      IconButton(
-                                        icon: Icon(
-                                          bookmarkedAyahs
-                                                  .contains(ayat['number'])
-                                              ? Icons.bookmark
-                                              : Icons.bookmark_border,
-                                          color: bookmarkedAyahs
-                                                  .contains(ayat['number'])
-                                              ? Colors.blue
-                                              : Colors.grey,
-                                        ),
-                                        onPressed: () =>
-                                            _toggleBookmark(ayat['number']),
-                                      ),
                                     ],
                                   ),
                                 ],
