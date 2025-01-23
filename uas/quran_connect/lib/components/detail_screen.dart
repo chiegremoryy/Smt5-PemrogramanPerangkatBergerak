@@ -105,7 +105,7 @@ class _DetailScreenState extends State<DetailScreen> {
                         const EdgeInsets.only(left: 16.0, right: 16.0, top: 40),
                     child: Container(
                       width: double.infinity,
-                      height: 270,
+                      height: 280,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         image: const DecorationImage(
